@@ -1,18 +1,32 @@
-# This is a multi-stage build. First we are going to compile and then
-# create a small image for runtime.
-FROM golang:1.11.1 as builder
-
-RUN mkdir -p /go/src/github.com/eks-workshop-sample-api-service-go
-WORKDIR /go/src/github.com/eks-workshop-sample-api-service-go
-RUN useradd -u 10001 app
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
-
-FROM scratch
-
-COPY --from=builder /go/src/github.com/eks-workshop-sample-api-service-go/main /main
-COPY --from=builder /etc/passwd /etc/passwd
-USER app
-
-EXPOSE 8080
-CMD ["/main"]
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-flask-service
+spec:
+  selector:
+    app: my-flask
+  ports:
+  - protocol: "TCP"
+    port: 6000
+    targetPort: 5000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-flask
+spec:
+  selector:
+    matchLabels:
+      app: my-flask
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: my-flask
+    spec:
+      containers:
+      - name: my-flask
+        image: 670853499222.dkr.ecr.us-east-2.amazonaws.com/my-flask
+        ports:
+        - containerPort: 5000
