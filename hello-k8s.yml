@@ -27,6 +27,6 @@ spec:
     spec:
       containers:
       - name: my-flask
-        image: 670853499222.dkr.ecr.us-east-2.amazonaws.com/my-flask
+        image: CONTAINER_IMAGE
         ports:
         - containerPort: 5000
