@@ -8,7 +8,7 @@ app = Flask(_name_)
 
 @app.route('/')
 def tutorialspoint():
-        return 'Hello World'
+        return 'Hello world. This is demo task done for KlearNow.'
 
 #Create the main driver function
 if _name_ == '_main_':
