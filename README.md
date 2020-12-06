@@ -1,6 +1,4 @@
-Hello,
-
-This is README file for cloudformation template "ci-cd-codepipeline.cfn".
+cloudformation template "ci-cd-codepipeline.cfn".
 
 Purpose of this template is to build dockerfile with given app.py in repository and deploy it over k8s cluster.
 
